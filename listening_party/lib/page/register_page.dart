@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import "package:flutter/material.dart";
 import "package:listening_party/components/text_field.dart";
@@ -6,14 +6,14 @@ import "package:listening_party/components/icon.dart";
 import "package:listening_party/components/text.dart";
 import "package:listening_party/components/button.dart";
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,10 +36,9 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 25),
 
               //Login Subheader
-              CustomText(text: "Login", fontSize: 18, color: Colors.white),
+              CustomText(text: "Register", fontSize: 18, color: Colors.white),
               SizedBox(height: 20),
 
-              //Email Text Field
               CustomTextField(
                   labelText: "Email", hintText: "myemail@email.com"),
               SizedBox(height: 15),
@@ -49,37 +48,37 @@ class _LoginPageState extends State<LoginPage> {
                   labelText: "Password", hintText: "", obscureText: true),
               SizedBox(height: 15),
 
-              //Login Via Email Button
+              //Register Via Email Button
               CustomButton(
-                  text: "Login Via Email",
+                  text: "Register Via Email",
                   color: Color(0xFF7834f7),
                   padding: 120),
               SizedBox(height: 20),
 
-              //Login Via Google Button
+              //Register Via Google Button
               CustomButton(
-                  text: "Login Via Email",
+                  text: "Register Via Email",
                   color: Color(0xfff1432c),
                   padding: 120),
               SizedBox(height: 20),
 
-              //Register Redirect Text
+              //Login Redirect Text
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CustomText(
-                      text: "No Account?", fontSize: 14, color: Colors.white),
+                      text: "Already Have an Account?",
+                      fontSize: 14,
+                      color: Colors.white),
                   GestureDetector(
                     onTap: () {
                       // Handle registration redirection
                     },
                     child: CustomText(
-                        text: " Register Here",
-                        fontSize: 14,
-                        color: Colors.red),
+                        text: " Login Here", fontSize: 14, color: Colors.red),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),
