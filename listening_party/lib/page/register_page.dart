@@ -5,6 +5,7 @@ import "package:listening_party/components/text_field.dart";
 import "package:listening_party/components/icon.dart";
 import "package:listening_party/components/text.dart";
 import "package:listening_party/components/button.dart";
+import 'package:listening_party/page/login_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -50,16 +51,24 @@ class _LoginPageState extends State<RegisterPage> {
 
               //Register Via Email Button
               CustomButton(
-                  text: "Register Via Email",
-                  color: Color(0xFF7834f7),
-                  padding: 120),
+                text: "Register Via Email",
+                bgColor: Color(0xFF7834f7),
+                textColor: Colors.white,
+                paddingHorizontal: 100,
+                paddingVertical: 12,
+                margin: 0.0,
+              ),
               SizedBox(height: 20),
 
               //Register Via Google Button
               CustomButton(
-                  text: "Register Via Email",
-                  color: Color(0xfff1432c),
-                  padding: 120),
+                text: "Register Via Email",
+                bgColor: Color(0xfff1432c),
+                textColor: Colors.white,
+                paddingHorizontal: 100,
+                paddingVertical: 12,
+                margin: 0.0,
+              ),
               SizedBox(height: 20),
 
               //Login Redirect Text
@@ -72,7 +81,12 @@ class _LoginPageState extends State<RegisterPage> {
                       color: Colors.white),
                   GestureDetector(
                     onTap: () {
-                      // Handle registration redirection
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => LoginPage(),
+                        ),
+                      );
                     },
                     child: CustomText(
                         text: " Login Here", fontSize: 14, color: Colors.red),

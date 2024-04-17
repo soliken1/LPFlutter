@@ -5,6 +5,7 @@ import "package:listening_party/components/text_field.dart";
 import "package:listening_party/components/icon.dart";
 import "package:listening_party/components/text.dart";
 import "package:listening_party/components/button.dart";
+import 'package:listening_party/page/register_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -51,16 +52,23 @@ class _LoginPageState extends State<LoginPage> {
 
               //Login Via Email Button
               CustomButton(
-                  text: "Login Via Email",
-                  color: Color(0xFF7834f7),
-                  padding: 120),
+                text: "Login Via Email",
+                bgColor: Color(0xFF7834f7),
+                textColor: Colors.white,
+                paddingHorizontal: 100,
+                paddingVertical: 12,
+                margin: 0.0,
+              ),
               SizedBox(height: 20),
 
               //Login Via Google Button
               CustomButton(
-                  text: "Login Via Email",
-                  color: Color(0xfff1432c),
-                  padding: 120),
+                  text: "Login Via Gmail",
+                  bgColor: Color(0xfff1432c),
+                  textColor: Colors.white,
+                  paddingHorizontal: 100,
+                  paddingVertical: 12,
+                  margin: 0.0),
               SizedBox(height: 20),
 
               //Register Redirect Text
@@ -71,12 +79,18 @@ class _LoginPageState extends State<LoginPage> {
                       text: "No Account?", fontSize: 14, color: Colors.white),
                   GestureDetector(
                     onTap: () {
-                      // Handle registration redirection
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => RegisterPage(),
+                        ),
+                      );
                     },
                     child: CustomText(
-                        text: " Register Here",
-                        fontSize: 14,
-                        color: Colors.red),
+                      text: " Register Here",
+                      fontSize: 14,
+                      color: Colors.red,
+                    ),
                   ),
                 ],
               )

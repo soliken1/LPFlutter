@@ -1,32 +1,50 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:listening_party/page/home_page.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
-  final Color color;
-  final double padding;
+  final Color bgColor;
+  final Color textColor;
+  final double paddingHorizontal;
+  final double paddingVertical;
+  final double margin;
 
-  const CustomButton(
-      {super.key,
-      required this.text,
-      required this.color,
-      required this.padding});
+  const CustomButton({
+    super.key,
+    required this.text,
+    required this.bgColor,
+    required this.paddingHorizontal,
+    required this.paddingVertical,
+    required this.margin,
+    required this.textColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: padding),
-      child: Container(
-        padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(10),
+      padding: EdgeInsets.only(left: margin),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: bgColor,
         ),
-        child: Center(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => HomePage(),
+            ),
+          );
+        },
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: paddingHorizontal,
+            vertical: paddingVertical,
+          ),
           child: Text(
             text,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: textColor),
           ),
         ),
       ),
