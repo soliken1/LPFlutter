@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "951502328345",
+    "project_id": "listening-party-420313",
+    "storage_bucket": "listening-party-420313.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951502328345:android:d4d670d80f1c0dea8d5088",
+        "android_client_info": {
+          "package_name": "com.example.listening_party"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951502328345-spp6vish0j8k2qf5btv4j8jgo020ka5g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGuNOyl_-7bwNSqU5gDkoWa3hJX5JWG10"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951502328345-spp6vish0j8k2qf5btv4j8jgo020ka5g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
