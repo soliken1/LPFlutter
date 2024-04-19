@@ -6,6 +6,7 @@ import "package:listening_party/components/icon.dart";
 import "package:listening_party/components/text.dart";
 import "package:listening_party/components/button.dart";
 import 'package:listening_party/page/login_page.dart';
+import 'package:listening_party/page/home_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -15,6 +16,15 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<RegisterPage> {
+  redirectToHome(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => HomePage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,21 +64,27 @@ class _LoginPageState extends State<RegisterPage> {
                 text: "Register Via Email",
                 bgColor: Color(0xFF7834f7),
                 textColor: Colors.white,
-                paddingHorizontal: 100,
+                paddingHorizontal: 45,
                 paddingVertical: 12,
                 margin: 0.0,
+                onPressed: () =>
+                    redirectToHome(context), // Pass a callback function here
               ),
+
               SizedBox(height: 20),
 
               //Register Via Google Button
               CustomButton(
-                text: "Register Via Email",
+                text: "Register Via Gmail",
                 bgColor: Color(0xfff1432c),
                 textColor: Colors.white,
-                paddingHorizontal: 100,
+                paddingHorizontal: 45,
                 paddingVertical: 12,
                 margin: 0.0,
+                onPressed: () =>
+                    redirectToHome(context), // Pass a callback function here
               ),
+
               SizedBox(height: 20),
 
               //Login Redirect Text

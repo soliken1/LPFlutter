@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:listening_party/page/home_page.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -10,6 +9,7 @@ class CustomButton extends StatelessWidget {
   final double paddingHorizontal;
   final double paddingVertical;
   final double margin;
+  final VoidCallback onPressed;
 
   const CustomButton({
     super.key,
@@ -19,6 +19,7 @@ class CustomButton extends StatelessWidget {
     required this.paddingVertical,
     required this.margin,
     required this.textColor,
+    required this.onPressed,
   });
 
   @override
@@ -29,14 +30,7 @@ class CustomButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: bgColor,
         ),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => HomePage(),
-            ),
-          );
-        },
+        onPressed: onPressed,
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: paddingHorizontal,

@@ -69,16 +69,6 @@ class _HomePageState extends State<HomePage> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.red,
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          print("Pressed The Button!");
-        },
-      ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFF121212),
         selectedItemColor: Colors.white,

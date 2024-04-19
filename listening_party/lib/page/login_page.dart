@@ -6,6 +6,7 @@ import "package:listening_party/components/icon.dart";
 import "package:listening_party/components/text.dart";
 import "package:listening_party/components/button.dart";
 import 'package:listening_party/page/register_page.dart';
+import 'package:listening_party/page/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,6 +16,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  redirectToHome(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => HomePage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,20 +65,24 @@ class _LoginPageState extends State<LoginPage> {
                 text: "Login Via Email",
                 bgColor: Color(0xFF7834f7),
                 textColor: Colors.white,
-                paddingHorizontal: 100,
+                paddingHorizontal: 45,
                 paddingVertical: 12,
                 margin: 0.0,
+                onPressed: () => redirectToHome(context),
               ),
               SizedBox(height: 20),
 
               //Login Via Google Button
               CustomButton(
-                  text: "Login Via Gmail",
-                  bgColor: Color(0xfff1432c),
-                  textColor: Colors.white,
-                  paddingHorizontal: 100,
-                  paddingVertical: 12,
-                  margin: 0.0),
+                text: "Login Via Gmail",
+                bgColor: Color(0xfff1432c),
+                textColor: Colors.white,
+                paddingHorizontal: 45,
+                paddingVertical: 12,
+                margin: 0.0,
+                onPressed: () => redirectToHome(context),
+              ),
+
               SizedBox(height: 20),
 
               //Register Redirect Text
