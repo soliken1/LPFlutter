@@ -22,7 +22,7 @@ class _RoomPageState extends State<RoomPage> {
   }
 
   final YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: "iLnmTe5Q2Qw",
+    initialVideoId: "https://youtu.be/yXlZNWspe5s",
     flags: YoutubePlayerFlags(
       autoPlay: true,
       mute: true,
