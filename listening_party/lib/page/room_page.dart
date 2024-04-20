@@ -29,6 +29,8 @@ class _RoomPageState extends State<RoomPage> {
     ),
   );
 
+  final _messageController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +57,7 @@ class _RoomPageState extends State<RoomPage> {
                   child: CustomTextField(
                     labelText: "",
                     hintText: "Send A Message",
+                    controller: _messageController,
                   ),
                 ),
                 SizedBox(width: 8.0),

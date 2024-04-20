@@ -1,17 +1,18 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
   final String labelText;
   final String hintText;
   final bool obscureText;
+  final TextEditingController controller;
 
   const CustomTextField({
     super.key,
     required this.labelText,
     required this.hintText,
     this.obscureText = false,
+    required this.controller,
   });
 
   @override
@@ -25,6 +26,7 @@ class CustomTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: TextField(
+          controller: controller,
           obscureText: obscureText,
           style: TextStyle(color: Colors.white),
           decoration: InputDecoration(

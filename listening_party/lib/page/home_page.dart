@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, unused_import, prefer_const_literals_to_create_immutables
 
+import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 import "package:listening_party/components/text_field.dart";
 import "package:listening_party/components/icon.dart";

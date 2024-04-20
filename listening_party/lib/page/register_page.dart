@@ -25,6 +25,9 @@ class _LoginPageState extends State<RegisterPage> {
     );
   }
 
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,12 +54,19 @@ class _LoginPageState extends State<RegisterPage> {
               SizedBox(height: 20),
 
               CustomTextField(
-                  labelText: "Email", hintText: "myemail@email.com"),
+                labelText: "Email",
+                hintText: "myemail@email.com",
+                controller: _emailController,
+              ),
               SizedBox(height: 15),
 
               //Password Text Field
               CustomTextField(
-                  labelText: "Password", hintText: "", obscureText: true),
+                labelText: "Password",
+                hintText: "",
+                obscureText: true,
+                controller: _passwordController,
+              ),
               SizedBox(height: 15),
 
               //Register Via Email Button
