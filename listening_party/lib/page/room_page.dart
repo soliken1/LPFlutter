@@ -6,7 +6,8 @@ import "package:listening_party/components/text_field.dart";
 import "package:listening_party/components/icon.dart";
 import "package:listening_party/components/text.dart";
 import "package:listening_party/components/button.dart";
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+import "package:firebase_auth/firebase_auth.dart";
 import 'package:flutter/foundation.dart';
 
 class RoomPage extends StatefulWidget {
@@ -17,19 +18,17 @@ class RoomPage extends StatefulWidget {
 }
 
 class _RoomPageState extends State<RoomPage> {
+  final _messageController = TextEditingController();
+
   void handleSendMessage() {
     print('Message sent');
   }
 
-  final YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: "https://youtu.be/yXlZNWspe5s",
-    flags: YoutubePlayerFlags(
-      autoPlay: true,
-      mute: true,
-    ),
+  final _youtubeController = YoutubePlayerController.fromVideoId(
+    videoId: "LVO_zS1qWqs",
+    autoPlay: false,
+    params: const YoutubePlayerParams(showFullscreenButton: true),
   );
-
-  final _messageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,16 +37,8 @@ class _RoomPageState extends State<RoomPage> {
       body: Column(
         children: [
           YoutubePlayer(
-            controller: _controller,
-            showVideoProgressIndicator: true,
-            progressIndicatorColor: Colors.amber,
-            progressColors: const ProgressBarColors(
-              playedColor: Colors.amber,
-              handleColor: Colors.amber,
-            ),
-            onReady: () {
-              _controller.play();
-            },
+            controller: _youtubeController,
+            aspectRatio: 16 / 9,
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),

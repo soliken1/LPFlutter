@@ -8,8 +8,9 @@ import "package:listening_party/components/text.dart";
 import "package:listening_party/components/button.dart";
 import "package:listening_party/page/login_page.dart";
 import 'dart:math';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:listening_party/page/room_page.dart";
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,12 +21,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late User? user;
-
-  @override
-  void initState() {
-    super.initState();
-    user = FirebaseAuth.instance.currentUser;
-  }
+  late QuerySnapshot querySnapshot;
 
   int _selectedIndex = 0;
 
@@ -33,15 +29,26 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
       if (_selectedIndex == 2) {
-        // Logout action
         FirebaseAuth.instance.signOut();
-        // Navigate to login page
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => LoginPage()),
         );
       }
     });
+  }
+
+  Future<QuerySnapshot?> fetchData() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('music-room').get();
+    return querySnapshot;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    user = FirebaseAuth.instance.currentUser;
+    fetchData();
   }
 
   @override
@@ -79,25 +86,66 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: ListView.builder(
-        itemBuilder: (_, index) {
-          return Container(
-            color: randomColor(),
-            width: 500,
-            height: 500,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => RoomPage(),
+      body: FutureBuilder<QuerySnapshot?>(
+        future: fetchData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            // Display error message if fetching data fails
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            final querySnapshot = snapshot.data!;
+            return Row(
+              children:
+                  querySnapshot.docs.map((DocumentSnapshot documentSnapshot) {
+                return Container(
+                  width: 200,
+                  height: 125,
+                  margin: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    border: Border.all(color: Colors.black, width: 1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20.0),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Text(
+                            documentSnapshot["room_name"].toString(),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            documentSnapshot["room_desc"].toString(),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            DateFormat('MM/dd/yyyy hh:mm:ss a').format(
+                              (documentSnapshot["room_created"] as Timestamp)
+                                  .toDate(),
+                            ),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 );
-              },
-              child: CustomText(
-                  text: " Select Room", fontSize: 14, color: Colors.red),
-            ),
-          );
+              }).toList(),
+            );
+          }
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
