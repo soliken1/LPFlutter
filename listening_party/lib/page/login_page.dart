@@ -6,8 +6,8 @@ import "package:listening_party/components/text_field.dart";
 import "package:listening_party/components/icon.dart";
 import "package:listening_party/components/text.dart";
 import "package:listening_party/components/button.dart";
-import "package:listening_party/page/auth.dart";
 import 'package:listening_party/page/register_page.dart';
+import 'package:listening_party/page/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -17,51 +17,70 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+  String? _errorMessage;
+  bool _isAuthenticated = false;
 
-  checkAuth(BuildContext context, {bool isGoogleSignIn = false}) {
-    if (isGoogleSignIn) {
-      googleSignIn().then((_) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => Auth(),
-          ),
-        );
-      });
-    } else {
-      signIn().then((_) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => Auth(),
-          ),
-        );
-      });
-    }
+  @override
+  void initState() {
+    super.initState();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
   }
 
-  Future<void> signIn() async {
+  Future<void> signIn(BuildContext context) async {
+    setState(() {
+      _errorMessage = null;
+    });
+
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    // Check if email and password are not empty
+    if (email.isEmpty || password.isEmpty) {
+      setState(() {
+        _errorMessage = 'Please enter both email and password.';
+      });
+      return;
+    }
+
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
+        email: email,
+        password: password,
       );
-      print('User signed in successfully');
+      setState(() {
+        _isAuthenticated = true;
+      });
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        // Handle specific Firebase Authentication errors
+        if (e.code == 'user-not-found') {
+          _errorMessage = 'No user found with that email.';
+        } else if (e.code == 'wrong-password') {
+          _errorMessage = 'Wrong password provided for that user.';
+        } else {
+          _errorMessage = 'An error occurred: ${e.message}';
+        }
+      });
     } catch (e) {
-      print('Error signing in: $e');
+      setState(() {
+        _errorMessage = 'An unexpected error occurred.';
+      });
     }
   }
 
-  Future<void> googleSignIn() async {
+  Future<void> googleSignIn(BuildContext context) async {
     try {
       await FirebaseAuth.instance.signInWithPopup(
         GoogleAuthProvider(),
       );
-      print('User signed in successfully');
+      setState(() {
+        _isAuthenticated = true;
+      });
     } catch (e) {
-      print('Error signing in: $e');
+      _errorMessage = 'Error signing in: $e';
     }
   }
 
@@ -74,6 +93,14 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Navigate to HomePage if authenticated
+    if (_isAuthenticated) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: HomePage(),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Color(0xFF121212),
       body: SafeArea(
@@ -84,18 +111,26 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 //Phone Icon
                 CustomIcon(
-                    icon: Icons.phone_android,
-                    iconSize: 100,
-                    iconColor: Colors.white),
+                  icon: Icons.phone_android,
+                  iconSize: 100,
+                  iconColor: Colors.white,
+                ),
                 SizedBox(height: 10),
 
                 //Application Name Header
                 CustomText(
-                    text: "Listening Party", fontSize: 24, color: Colors.white),
+                  text: "Listening Party",
+                  fontSize: 24,
+                  color: Colors.white,
+                ),
                 SizedBox(height: 25),
 
                 //Login Subheader
-                CustomText(text: "Login", fontSize: 18, color: Colors.white),
+                CustomText(
+                  text: "Login",
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
                 SizedBox(height: 20),
 
                 //Email Text Field
@@ -115,6 +150,15 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 15),
 
+                if (_errorMessage != null)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      _errorMessage!,
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ),
+
                 //Login Via Email Button
                 CustomButton(
                   text: "Login Via Email",
@@ -123,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                   paddingHorizontal: 45,
                   paddingVertical: 12,
                   margin: 0.0,
-                  onPressed: () => checkAuth(context),
+                  onPressed: () => signIn(context),
                 ),
                 SizedBox(height: 20),
 
@@ -135,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                   paddingHorizontal: 45,
                   paddingVertical: 12,
                   margin: 0.0,
-                  onPressed: () => checkAuth(context, isGoogleSignIn: true),
+                  onPressed: () => googleSignIn(context),
                 ),
 
                 SizedBox(height: 20),
@@ -145,7 +189,10 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomText(
-                        text: "No Account?", fontSize: 14, color: Colors.white),
+                      text: "No Account?",
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
